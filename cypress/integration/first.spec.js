@@ -6,8 +6,9 @@ describe('First suite', () => {
     it('First test', () => {
 
         cy.visit('/')
-        console.log( 'aewara')
-        //basic method get any element and most of test
+        //console.log( 'aewara')
+
+        //basic method GET() any element and most of test
 
         cy.contains('Forms').click()
         cy.contains('Form Layouts').click()
@@ -43,7 +44,28 @@ describe('First suite', () => {
         //the most recommended way by Cypress
         cy.get('[data-cy="imputEmail1"]')
     })
+    //want to run only this test
+    it.only('Second Test', () =>{
 
+        cy.visit('/')
+        cy.contains('Forms').click()
+        cy.contains('Form Layouts').click()
+
+        //create on button data-cy inside on Using the Grid (form-layouts.components.html)
+        cy.get('[data-cy="signInButton"]')
+        //use exactly the same name of text DOM
+        cy.contains('Sign in')
+
+        //find second sign in from Horizontal form
+        //cy.get('[status="warning"]')
+        //or
+        cy.contains('[status="warning"]','Sign in')
+
+        cy.get('#inputEmail3')
+
+        //find the form where is contain email, pass and sign in(travel paranet element)
+
+    })
 
 
 })
