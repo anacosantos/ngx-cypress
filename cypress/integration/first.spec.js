@@ -1,6 +1,7 @@
 //import cypress to identifu methods
 /// <reference types="cypress"/>
 
+
 describe('First suite', () => {
 
     it('First test', () => {
@@ -45,7 +46,7 @@ describe('First suite', () => {
         cy.get('[data-cy="imputEmail1"]')
     })
     //want to run only this test
-    it.only('Second Test', () =>{
+    it('Second Test', () =>{
 
         cy.visit('/')
         cy.contains('Forms').click()
@@ -60,12 +61,71 @@ describe('First suite', () => {
         //cy.get('[status="warning"]')
         //or
         cy.contains('[status="warning"]','Sign in')
-
+ 
+        //find the form where is content email, pass and sign in(travel paranet element)and a child
+        //email into of form and find button
         cy.get('#inputEmail3')
+            .parents('form')
+            .find('button')
+            .should('contain', 'Sign in')
+            //go to (remember me) square
+            .parents('form')
+            .find('nb-checkbox')
+            .click()
 
-        //find the form where is contain email, pass and sign in(travel paranet element)
+        //another way to fins email
+        //cypress will find nb-card which contains text horizontal form and find web element
+        cy.contains('nb-card', 'Horizontal form').find('[type="email"]')//or find('[id="inputEmail3"]')
 
     })
+
+    it.only('then and wrap methods', () => {
+
+        cy.visit('/')
+        cy.contains('Forms').click()
+        cy.contains('Form Layouts').click()
+
+        // cy.contains('nb-card','Using the Grid').find('[for="inputEmail1"]').should('contain', 'Email')
+        // cy.contains('nb-card','Using the Grid').find('[for="inputPassword2"]').should('contain', 'Password' )
+        // cy.contains('nb-card','Basic form').find('[for="exampleInputEmail1"]').should('contain', 'Email address' )
+        // cy.contains('nb-card','Basic form').find('[for="exampleInputPassword1"]').should('contain', 'Password')
+
+
+        //***** selenium put the same variable with const
+        //this sort of isn't works with cy
+        // const firstForm = cy.contains('nb-card','Using the Grid')
+        // const secondForm = cy.contains('nb-card','Basic form')
+        // firstForm.find('[for="inputEmail1"]').should('contain', 'Email')
+        // firstForm.find('[for="inputPassword2"]').should('contain', 'Password' )
+        // secondForm.find('[for="exampleInputEmail1"]').should('contain', 'Email address' )
+        // secondForm.find('[for="exampleInputPassword1"]').should('contain', 'Password')
+
+        //**** CYPRESS STYLE
+        cy.contains('nb-card','Using the Grid').then( firstForm => {
+            
+            const emailLabelFirst = firstForm.find('[for="inputEmail1"]').text()
+            const passwordLabelFirst = firstForm.find('[for="inputPassword2"]').text()
+            expect(emailLabelFirst).to.equal('Email')
+            expect(passwordLabelFirst).to.equal('Password')
+
+        })
+
+        cy.contains('nb-card','Basic form').then( secondForm => {
+            // const emailLabelSecond = secondForm.find('[for="exampleInputEmail1"]').text()
+            // const passwordLabelSecond = secondForm.find('[for="exampleInputPassword1"]').text()
+            // expect(emailLabelSecond).to.equal('Email address')
+            // expect(passwordLabelSecond).to.equal('Password')
+
+            //or THE BEST WAY 
+            cy.wrap(secondForm).find('[for="exampleInputEmail1"]').should('contain', 'Email address')
+            cy.wrap(secondForm).find('[for="exampleInputPassword1"]').should('contain', 'Password')
+
+        })
+
+
+
+    })
+
 
 
 })
