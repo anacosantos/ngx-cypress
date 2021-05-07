@@ -79,7 +79,7 @@ describe('First suite', () => {
 
     })
 
-    it.only('then and wrap methods', () => {
+    it('then and wrap methods', () => {
 
         cy.visit('/')
         cy.contains('Forms').click()
@@ -122,13 +122,48 @@ describe('First suite', () => {
             //cy.wrap(cy.contains('nb-card','Basic form').then(s => {return s})).find('[for="exampleInputEmail1"]').should('contain', 'Email address')
 
         })
-
-        
-
-        
-
     })
 
+    it.only('Test invoke command', () => {
+
+        cy.visit('/')
+        cy.contains('Forms').click()
+        cy.contains('Form Layouts').click()
+
+        //ex1
+        cy.get('[for="exampleInputEmail1"]').should('contain', 'Email address')
+
+        //ex2
+        cy.get('[for="exampleInputEmail1"]').then((label) => {
+            expect(label.text()).to.equal('Email address')
+        })
+
+        //ex3 using invoke comand
+        cy.get('[for="exampleInputEmail1"]').invoke('text').then((text) =>{
+            expect(text).to.equal('Email address')
+        })
+
+        //ex4 check is checkbox was checked
+        // cy.contains('nb-card','Basic form')
+        //     .find('nb-checkbox')
+        //     .click()
+        //     .find('.custom-checkbox')
+        //     .invoke('attr', 'class')
+        //     .should('contain', 'checked')
+
+       //ex5
+       cy.contains('nb-card','Basic form')
+       .find('nb-checkbox')
+       .click()
+       .find('.custom-checkbox')
+       .invoke('attr', 'class')
+       .then((classValue => {
+           expect(classValue).to.contain('checked')
+       }))
+
+        
+       
 
 
+    })
 })
