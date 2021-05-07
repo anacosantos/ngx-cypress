@@ -93,23 +93,21 @@ describe('First suite', () => {
 
         //***** selenium put the same variable with const
         //this sort of isn't works with cy
-        // const firstForm = cy.contains('nb-card','Using the Grid')
-        // const secondForm = cy.contains('nb-card','Basic form')
-        // firstForm.find('[for="inputEmail1"]').should('contain', 'Email')
-        // firstForm.find('[for="inputPassword2"]').should('contain', 'Password' )
-        // secondForm.find('[for="exampleInputEmail1"]').should('contain', 'Email address' )
-        // secondForm.find('[for="exampleInputPassword1"]').should('contain', 'Password')
+        //const firstForm = cy.contains('nb-card','Using the Grid')
+        //const secondForm = cy.contains('nb-card','Basic form')
+        //firstForm.find('[for="inputEmail1"]').should('contain', 'Email')
+        //firstForm.find('[for="inputPassword2"]').should('contain', 'Password' )
+        //secondForm.find('[for="exampleInputEmail1"]').should('contain', 'Email address' )
+        
 
         //**** CYPRESS STYLE
-        cy.contains('nb-card','Using the Grid').then( firstForm => {
-            
-            const emailLabelFirst = firstForm.find('[for="inputEmail1"]').text()
-            const passwordLabelFirst = firstForm.find('[for="inputPassword2"]').text()
-            expect(emailLabelFirst).to.equal('Email')
-            expect(passwordLabelFirst).to.equal('Password')
-
-        })
-
+        // cy.contains('nb-card','Using the Grid').then( firstForm => {
+        //     const emailLabelFirst = firstForm.find('[for="inputEmail1"]').text()
+        //     const passwordLabelFirst = firstForm.find('[for="inputPassword2"]').text()
+        //     expect(emailLabelFirst).to.equal('Email')
+        //     expect(passwordLabelFirst).to.equal('Password')
+        // })
+        
         cy.contains('nb-card','Basic form').then( secondForm => {
             // const emailLabelSecond = secondForm.find('[for="exampleInputEmail1"]').text()
             // const passwordLabelSecond = secondForm.find('[for="exampleInputPassword1"]').text()
@@ -119,10 +117,15 @@ describe('First suite', () => {
             //or THE BEST WAY 
             cy.wrap(secondForm).find('[for="exampleInputEmail1"]').should('contain', 'Email address')
             cy.wrap(secondForm).find('[for="exampleInputPassword1"]').should('contain', 'Password')
+            
+            //or
+            //cy.wrap(cy.contains('nb-card','Basic form').then(s => {return s})).find('[for="exampleInputEmail1"]').should('contain', 'Email address')
 
         })
 
+        
 
+        
 
     })
 
