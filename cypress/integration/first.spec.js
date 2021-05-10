@@ -1,9 +1,6 @@
 //import cypress to identifu methods
 /// <reference types="cypress"/>
 
-
-
-
 describe('First suite', () => {
 
     it('First test', () => {
@@ -178,7 +175,7 @@ describe('First suite', () => {
         })      
     })
 
-    it.only('radio button', () => {
+    it('radio button', () => {
         cy.visit('/')
         cy.contains('Forms').click()
         cy.contains('Form Layouts').click()
@@ -206,6 +203,32 @@ describe('First suite', () => {
                 .should('be.disabled')
 
         })
+    })    
 
+    it.only('check boxes', () => {
+
+        cy.visit('/')
+        cy.contains('Modal & Overlays').click()
+        cy.contains('Toastr').click()
+
+        //will all checkboxes unchecked, don't became default checked as uncheked. 
+        //all elements checked by default will continue checked
+        //to became element defalt unchecked have to click to became unchecked
+        ///cy.get('[type="checkbox"]').check({force: true}) 
+
+        //to became element default unchecked have to click to became unchecked
+        cy.get('[type="checkbox"]').eq(0).click({force: true})
+
+        //element default still checked
+        ///cy.get('[type="checkbox"]').eq(0).check({force: true})
+
+        //check second element
+        cy.get('[type="checkbox"]').eq(1).check({force: true})
+
+        //use check of type checkbox and radio CHECK methods will work
+        //just check ,but not uncheck
     })
+
+
+    
 })
