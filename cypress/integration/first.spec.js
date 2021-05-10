@@ -2,6 +2,8 @@
 /// <reference types="cypress"/>
 
 
+
+
 describe('First suite', () => {
 
     it('First test', () => {
@@ -163,7 +165,7 @@ describe('First suite', () => {
 
     })   
 
-    it.only('Assert property', () => {
+    it('Assert property', () => {
 
         cy.visit('/')
         cy.contains('Forms').click()
@@ -174,5 +176,36 @@ describe('First suite', () => {
             cy.get('nb-calendar-day-picker').contains('17').click()
             cy.wrap(input).invoke('prop', 'value').should('contain', 'May 17, 2021')
         })      
+    })
+
+    it.only('radio button', () => {
+        cy.visit('/')
+        cy.contains('Forms').click()
+        cy.contains('Form Layouts').click()
+
+        ///cy.get('[type="radio"]').first().check()
+                                                //cab use get too
+        cy.contains('nb-card', 'Using the Grid').find('[type="radio"]').then((radioButtons) => {
+            cy.wrap(radioButtons)
+                .first()
+                //input hidden, have to use force
+                .check({force: true})
+                .should('be.checked') 
+
+            cy.wrap(radioButtons)
+                //get index
+                .eq(1)   
+                .check({force: true})  
+
+            cy.wrap(radioButtons)
+                .eq(0)
+                .should('not.be.checked')
+
+            cy.wrap(radioButtons)   
+                .eq(2)
+                .should('be.disabled')
+
+        })
+
     })
 })
