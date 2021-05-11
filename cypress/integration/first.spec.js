@@ -1,6 +1,8 @@
 //import cypress to identifu methods
 /// <reference types="cypress"/>
 
+
+
 describe('First suite', () => {
 
     it('First test', () => {
@@ -232,21 +234,59 @@ describe('First suite', () => {
 
     it.only('list and dropdown', () => {
         cy.visit('/')
-        //long way for one element 
-        cy.get('nav nb-select').click()
-        ///cy.get('.options-list') to get dark
-        cy.get('[class="options-list"]').contains('Dark').click()
-        //or
-        cy.get('[class="appearance-outline size-medium status-primary shape-rectangle"]').should('contain', 'Dark')
-        //or
-        cy.get('nav nb-select').should('contain', 'Dark')
-        //above input nav loook at the styles on styles : nb-layout-header nav 
-        //converrte this #222b45 to rgb 34, 43, 69
-        cy.get('nb-layout-header nav').should('have.css', 'background-color', 'rgb(34, 43, 69)')
+        // //long way for one element 
+        // cy.get('nav nb-select').click()
+        // ///cy.get('.options-list') to get dark
+        // cy.get('[class="options-list"]').contains('Dark').click()
+        // //or
+        // cy.get('[class="appearance-outline size-medium status-primary shape-rectangle"]').should('contain', 'Dark')
+        // //or
+        // cy.get('nav nb-select').should('contain', 'Dark')
+        // //above input nav loook at the styles on styles : nb-layout-header nav 
+        // //converrte this #222b45 to rgb 34, 43, 69
+        // cy.get('nb-layout-header nav').should('have.css', 'background-color', 'rgb(34, 43, 69)')
     
 
-        //best option reach each element e verify the colors
+       
+        // best option reach each element e verify the colors
+        cy.get('nav nb-select').then((dropdown) => {
+            cy.wrap(dropdown).click
+            // cy.log(dropdown)
+
+            //()trim to remove space text
+            cy.get('.options-list nb-option').each((listItem) => {
+                const  itemText = listItem.text().trim()
+
+                const colors = {
+                    'Light': 'rgb(255, 255, 255)',
+                    'Dark': 'rgb(34, 43, 69)',
+                    'Cosmic': 'rgb(50, 50, 89)',
+                    'Corporate': 'rgb(255, 255, 255)'
+                }
+
+                cy.wrap(listItem).click()
+                cy.wrap(dropdown).should('contain', itemText)
+
+                cy.get('nb-layout-header nav').should('have.css', 'background-color', colors[itemText])
+                cy.wrap(dropdown).click()
         
+        })
+
+        //me
+        //  cy.get('[class="appearance-outline size-medium status-primary shape-rectangle"]').then((list) => {
+        //      cy.wrap(list).click()
+
+        // cy.get('[class="options-list"] nb-option').each((allList) => {
+        //     cy.wrap(allList).click()
+        //     cy.log(allList)
+        // })     
+
+
+
+
+        })
+
+       
 
     })
 
