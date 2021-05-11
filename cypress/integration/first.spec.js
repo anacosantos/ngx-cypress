@@ -205,7 +205,7 @@ describe('First suite', () => {
         })
     })    
 
-    it.only('check boxes', () => {
+    it('check boxes', () => {
 
         cy.visit('/')
         cy.contains('Modal & Overlays').click()
@@ -229,6 +229,26 @@ describe('First suite', () => {
         //just check ,but not uncheck
     })
 
+
+    it.only('list and dropdown', () => {
+        cy.visit('/')
+        //long way for one element 
+        cy.get('nav nb-select').click()
+        ///cy.get('.options-list') to get dark
+        cy.get('[class="options-list"]').contains('Dark').click()
+        //or
+        cy.get('[class="appearance-outline size-medium status-primary shape-rectangle"]').should('contain', 'Dark')
+        //or
+        cy.get('nav nb-select').should('contain', 'Dark')
+        //above input nav loook at the styles on styles : nb-layout-header nav 
+        //converrte this #222b45 to rgb 34, 43, 69
+        cy.get('nb-layout-header nav').should('have.css', 'background-color', 'rgb(34, 43, 69)')
+    
+
+        //best option reach each element e verify the colors
+        
+
+    })
 
     
 })
