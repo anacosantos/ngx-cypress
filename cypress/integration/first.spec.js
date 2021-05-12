@@ -3,6 +3,8 @@
 
 
 
+
+
 describe('First suite', () => {
 
     it('First test', () => {
@@ -248,46 +250,31 @@ describe('First suite', () => {
     
 
        
-        // best option reach each element e verify the colors
+        // // best option reach each element e verify the colors
         cy.get('nav nb-select').then((dropdown) => {
-            cy.wrap(dropdown).click
-            // cy.log(dropdown)
+            cy.wrap(dropdown).click()
+            const colors = {
+                'Light': 'rgb(255, 255, 255)',
+                'Dark': 'rgb(34, 43, 69)',
+                'Cosmic': 'rgb(50, 50, 89)',
+                'Corporate': 'rgb(255, 255, 255)'
+            }
 
             //()trim to remove space text
-            cy.get('.options-list nb-option').each((listItem) => {
-                const  itemText = listItem.text().trim()
-
-                const colors = {
-                    'Light': 'rgb(255, 255, 255)',
-                    'Dark': 'rgb(34, 43, 69)',
-                    'Cosmic': 'rgb(50, 50, 89)',
-                    'Corporate': 'rgb(255, 255, 255)'
-                }
+            cy.get('.options-list nb-option').each((listItem, index) => {
+                const itemText = listItem.text().trim()
 
                 cy.wrap(listItem).click()
                 cy.wrap(dropdown).should('contain', itemText)
 
                 cy.get('nb-layout-header nav').should('have.css', 'background-color', colors[itemText])
-                cy.wrap(dropdown).click()
-        
+                if(index < 3){
+                    cy.wrap(dropdown).click()
+                }
+                
+            })   
+            
         })
-
-        //me
-        //  cy.get('[class="appearance-outline size-medium status-primary shape-rectangle"]').then((list) => {
-        //      cy.wrap(list).click()
-
-        // cy.get('[class="options-list"] nb-option').each((allList) => {
-        //     cy.wrap(allList).click()
-        //     cy.log(allList)
-        // })     
-
-
-
-
-        })
-
-       
-
     })
 
     
