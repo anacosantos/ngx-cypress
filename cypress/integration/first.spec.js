@@ -1,9 +1,7 @@
-//import cypress to identifu methods
+//import cypress to identify methods
 /// <reference types="cypress"/>
 
-
-
-
+const { writeHeapSnapshot } = require("v8")
 
 describe('First suite', () => {
 
@@ -234,7 +232,7 @@ describe('First suite', () => {
     })
 
 
-    it.only('list and dropdown', () => {
+    it('list and dropdown', () => {
         cy.visit('/')
         // //long way for one element 
         // cy.get('nav nb-select').click()
@@ -277,5 +275,51 @@ describe('First suite', () => {
         })
     })
 
-    
+    it('Web tables', () => {
+       cy.visit('/')
+       cy.contains('Tables & Data').click()
+       cy.contains('Smart Table').click()
+
+       cy.get('tbody').contains('tr', 'Larry').then((tableRow) => {
+            cy.wrap(tableRow).find('.nb-edit').click()
+            cy.wrap(tableRow).find('[placeholder="Age"]').clear().type('25')
+            cy.wrap(tableRow).find('.nb-checkmark').click()
+            cy.wrap(tableRow).find('td').eq(6).should('contain', '25')
+       })
+    })   
+
+    it('add name and last name', () =>{
+        cy.visit('/')
+        cy.contains('Tables & Data').click()
+        cy.contains('Smart Table').click()
+
+        cy.get('thead').find('.nb-plus').click()
+        cy.get('thead').find('tr').eq(2).then((tableRow) => {
+            cy.wrap(tableRow).find('[placeholder="First Name"]').type('Kikito')
+            cy.wrap(tableRow).find('[placeholder="Last Name"]').type('Menezes')
+            cy.wrap(tableRow).find('.nb-checkmark').click()
+        })
+
+        cy.get('tbody tr').first().find('td').then((tableColumns) => {
+            cy.wrap(tableColumns).eq(2).should('contain', 'Kikito')
+            cy.wrap(tableColumns).eq(3).should('contain', 'Menezes')
+
+        })
+    })
+
+    it.only('filter the data from de age', () => {
+        cy.visit('/')
+        cy.contains('Tables & Data').click()
+        cy.contains('Smart Table').click()
+
+        ///cy.get('thead tr').find('[placeholder="Age"]').type('20')
+        //or
+        cy.get('thead [placeholder="Age"]').type('20')
+        cy.get('tbody').contains('tr td').then((tableCol) => {
+            cy.wrap(tableCol).each((tableRaw) => {
+                
+            })
+        })
+
+    })
 })
