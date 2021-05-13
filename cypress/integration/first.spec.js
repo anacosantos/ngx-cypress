@@ -1,8 +1,6 @@
 //import cypress to identify methods
 /// <reference types="cypress"/>
 
-const { writeHeapSnapshot } = require("v8")
-
 describe('First suite', () => {
 
     it('First test', () => {
@@ -312,14 +310,22 @@ describe('First suite', () => {
         cy.contains('Tables & Data').click()
         cy.contains('Smart Table').click()
 
-        ///cy.get('thead tr').find('[placeholder="Age"]').type('20')
-        //or
-        cy.get('thead [placeholder="Age"]').type('20')
-        cy.get('tbody').contains('tr td').then((tableCol) => {
-            cy.wrap(tableCol).each((tableRaw) => {
-                
+        //create new scenarios with age
+        const age = [20, 30, 40, 200]  
+        cy.wrap(age).each(age => {
+            ///cy.get('thead tr').find('[placeholder="Age"]').type('20')
+            //or
+            cy.get('thead [placeholder="Age"]').clear().type(age)
+            //used it, because table has i short delay to update
+            cy.wait(500)
+            cy.get('tbody tr').each(tableR => {
+                if(age == 200){
+                    cy.wrap(tableR).should('contain', 'No data found')
+                } else {
+                    cy.wrap(tableR).find('td').eq(6).should('contain', age)
+                }
+           
             })
         })
-
     })
 })
