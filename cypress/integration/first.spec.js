@@ -305,7 +305,7 @@ describe('First suite', () => {
         })
     })
 
-    it.only('filter the data from de age', () => {
+    it('filter the data from de age', () => {
         cy.visit('/')
         cy.contains('Tables & Data').click()
         cy.contains('Smart Table').click()
@@ -327,5 +327,35 @@ describe('First suite', () => {
            
             })
         })
+    })
+
+    it.only('Web Datapicker generating a new dates', () => {
+        cy.visit('/')
+        cy.contains('Forms').click()
+        cy.contains('Datepicker').click()
+        //use this from JS
+        let date = new Date()
+
+        //add a certain number of days to these dates
+        date.setDate(date.getDate() + 3)
+        let futureDay = date.getDate()
+        //return number of month 
+        //let futureMonth = date.getMonth() ORRRRRR
+        let futureMonth = date.toLocaleDateString ('default', {month: 'short'})
+
+        cy.contains('nb-card', 'Common Datepicker').find('input').then((input) => {
+            cy.wrap(input).click()      
+
+            cy.get('nb-calendar-navigation').invoke('attr', 'ng-reflect-date').then( dateAttribute => {
+                if(!dateAttribute.includes(futureMonth)){
+                    cy.get('[data-name="chevron-right"]').click()
+                    cy.get('nb-calendar-day-picker [class="day-cell ng-star-inserted"]').contains(futureDay).click()
+                } else {
+                    cy.get('nb-calendar-day-picker [class="day-cell ng-star-inserted"]').contains(futureDay).click()
+                }
+            })
+            //cy.get('nb-calendar-day-picker').contains('17').click()
+            //cy.wrap(input).invoke('prop', 'value').should('contain', 'May 17, 2021')
+        })      
     })
 })
