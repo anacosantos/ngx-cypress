@@ -365,7 +365,24 @@ describe('First suite', () => {
         })      
     })
 
-    // it.only('pop up', () => {
+    it.only('tooltip ', () => {
+        //verify text inside the tooltip
+        cy.visit('/')
+        cy.contains('Modal & Overlays').click()
+        cy.contains('Tooltip').click()
+        //*********** using each to give a index for each element
+        // cy.contains('nb-card', 'Colored Tooltips').find('button').then((button) => {
+        //     cy.wrap(button).each((item, index ) => {
+        //         cy.log(item, index)
+        //     })
 
-    // })
+        //********* use invoke to bring attr
+        // cy.contains('nb-card', 'Colored Tooltips').find('button').then((button) => {
+            // cy.wrap(button).invoke('attr', 'nbtooltip').should('contain', 'This is a tooltip')
+        // })
+        cy.contains('nb-card', 'Colored Tooltips')
+            .contains('Default').click()
+            cy.get('nb-tooltip').should('contain', 'This is a tooltip')
+
+    })
 })
