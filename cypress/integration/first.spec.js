@@ -365,7 +365,7 @@ describe('First suite', () => {
         })      
     })
 
-    it.only('tooltip ', () => {
+    it('tooltip ', () => {
         //verify text inside the tooltip
         cy.visit('/')
         cy.contains('Modal & Overlays').click()
@@ -385,4 +385,16 @@ describe('First suite', () => {
             cy.get('nb-tooltip').should('contain', 'This is a tooltip')
 
     })
+
+    it.only('dialog', () => {
+        cy.visit('/')
+        cy.contains('Modal & Overlays').click()
+        cy.contains('Dialog').click()
+        //******* find the buttons
+        cy.contains('nb-card', 'Open Dialog').find('button').then(buttonss => {
+            cy.wrap(buttonss).should('contain', 'Open Dialog with component', 'Open Dialog with template') 
+        })
+    })
+
+    // it.only('')
 })
