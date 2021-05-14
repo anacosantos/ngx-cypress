@@ -329,7 +329,7 @@ describe('First suite', () => {
         })
     })
 
-    it.only('Web Datapicker generating a new dates', () => {
+    it('Web Datapicker generating a new dates', () => {
         cy.visit('/')
         cy.contains('Forms').click()
         cy.contains('Datepicker').click()
@@ -340,13 +340,16 @@ describe('First suite', () => {
         let futureDay = date.getDate()
         //return number of month 
         //let futureMonth = date.getMonth() ORRRRRR
-        let futureMonth = date.toLocaleDateString ('default', {month: 'short'})// extract month
+        let futureMonth = date.toLocaleDateString ('default', {month: 'short'})// extract month Try to replace 'default' with 'en-US', for the locale, it should help
         let dateAssert = futureMonth+' '+futureDay+', '+date.getFullYear()
 
         cy.contains('nb-card', 'Common Datepicker').find('input').then((input) => {
             cy.wrap(input).click()  
             selectDayFromCurrent()
             function selectDayFromCurrent(){
+
+                
+
                 cy.get('nb-calendar-navigation').invoke('attr', 'ng-reflect-date').then( dateAttribute => {
                     if(!dateAttribute.includes(futureMonth)){
                         cy.get('[data-name="chevron-right"]').click()
@@ -357,7 +360,12 @@ describe('First suite', () => {
                 })            
         
             }
+            
             cy.wrap(input).invoke('prop', 'value').should('contain', dateAssert)
         })      
     })
+
+    // it.only('pop up', () => {
+
+    // })
 })
