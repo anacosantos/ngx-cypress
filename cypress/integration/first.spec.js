@@ -386,7 +386,7 @@ describe('First suite', () => {
 
     })
 
-    it.only('dialog', () => {
+    it('dialog', () => {
         cy.visit('/')
         cy.contains('Modal & Overlays').click()
         cy.contains('Dialog').click()
@@ -396,5 +396,26 @@ describe('First suite', () => {
         })
     })
 
-    // it.only('')
+    it.only('dialog box pop up', () => {
+        cy.visit('/')
+        cy.contains('Tables & Data').click()
+        cy.contains('Smart Table').click()
+
+        //ex1 not so useful, because worked only window confirm
+        // cy.get('tbody tr').first().find('.nb-trash').click()
+        // cy.on('window:confirm', (confirm) => {
+        //     expect(confirm).to.equal('Are you sure you want to delete?')
+        // })
+
+        //ex2 the best way, because the window can be empty
+        // const stub = cy.stub()
+        // cy.on('window:confirm', stub)
+        // cy.get('tbody tr').first().find('.nb-trash').click().then(() => {
+        //     expect(stub.getCall(0)).to.be.calledWith('Are you sure you want to delete?')
+        // })
+
+        //ex3 press cancel on dialog box. false to confirm events
+        cy.get('tbody tr').first().find('.nb-trash').click()
+        cy.on('window:confirm', () => false)
+    })
 })
