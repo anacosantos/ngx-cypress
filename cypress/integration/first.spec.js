@@ -335,27 +335,29 @@ describe('First suite', () => {
         cy.contains('Datepicker').click()
         //use this from JS
         let date = new Date()
-
         //add a certain number of days to these dates
-        date.setDate(date.getDate() + 3)
+        date.setDate(date.getDate() + 70)
         let futureDay = date.getDate()
         //return number of month 
         //let futureMonth = date.getMonth() ORRRRRR
-        let futureMonth = date.toLocaleDateString ('default', {month: 'short'})
+        let futureMonth = date.toLocaleDateString ('default', {month: 'short'})// extract month
+        let dateAssert = futureMonth+' '+futureDay+', '+date.getFullYear()
 
         cy.contains('nb-card', 'Common Datepicker').find('input').then((input) => {
-            cy.wrap(input).click()      
-
-            cy.get('nb-calendar-navigation').invoke('attr', 'ng-reflect-date').then( dateAttribute => {
-                if(!dateAttribute.includes(futureMonth)){
-                    cy.get('[data-name="chevron-right"]').click()
-                    cy.get('nb-calendar-day-picker [class="day-cell ng-star-inserted"]').contains(futureDay).click()
-                } else {
-                    cy.get('nb-calendar-day-picker [class="day-cell ng-star-inserted"]').contains(futureDay).click()
-                }
-            })
-            //cy.get('nb-calendar-day-picker').contains('17').click()
-            //cy.wrap(input).invoke('prop', 'value').should('contain', 'May 17, 2021')
+            cy.wrap(input).click()  
+            selectDayFromCurrent()
+            function selectDayFromCurrent(){
+                cy.get('nb-calendar-navigation').invoke('attr', 'ng-reflect-date').then( dateAttribute => {
+                    if(!dateAttribute.includes(futureMonth)){
+                        cy.get('[data-name="chevron-right"]').click()
+                        selectDayFromCurrent()
+                    } else {
+                        cy.get('nb-calendar-day-picker [class="day-cell ng-star-inserted"]').contains(futureDay).click()
+                    }
+                })            
+        
+            }
+            cy.wrap(input).invoke('prop', 'value').should('contain', dateAssert)
         })      
     })
 })
