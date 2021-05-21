@@ -1,6 +1,7 @@
 import { onDatepickerPage } from "../support/page_objects/datepickerPage"
 import { onFormLayoutsPage } from "../support/page_objects/formLayoutsPage"
 import { navigateTo } from "../support/page_objects/navigationPage"
+import { onSmartTablePage } from "../support/page_objects/smartTablePage"
 
 
 describe('Test with Page Object', () => {
@@ -24,6 +25,10 @@ describe('Test with Page Object', () => {
         navigateTo.datePickerPage()
         onDatepickerPage.selectCommomDatepickerDateFromToday(1)
         onDatepickerPage.selectDatepickerWithRangeFromToday(7, 14)
+        navigateTo.smartTablePage()
+        onSmartTablePage.addNewRecordWithFirstAndLastName('Carol', 'Santos')
+        onSmartTablePage.updateAgeByFirstName('Carol', '35')
+        onSmartTablePage.deleteRowByIndex(1)
     })
     
 })    

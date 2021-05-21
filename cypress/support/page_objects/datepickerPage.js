@@ -4,7 +4,7 @@ function selectDayFromCurrent(day){
         let futureDay = date.getDate()
         let futureMonth = date.toLocaleDateString ('default', {month: 'short'})
         let dateAssert = futureMonth+' '+futureDay+', '+date.getFullYear()
-        //TODO verify Marcus video 21 time: 15min       
+        //TODO verify vi 21 time: 15min       
         cy.get('nb-calendar-navigation').invoke('attr', 'ng-reflect-date').then( dateAttribute => {
             if(!dateAttribute.includes(futureMonth)){
                 cy.get('[data-name="chevron-right"]').click()
