@@ -2,7 +2,7 @@
 
 describe('JSON objects', () =>{
 
-    it.only('JSON objects', () => {
+    it('JSON objects', () => {
         cy.openHomePage()
 
         const simpleObject = {"Key": "value", "Key2": "value2",}
